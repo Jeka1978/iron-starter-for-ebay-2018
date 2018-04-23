@@ -1,0 +1,26 @@
+package org.gameofthrones.ironstarter;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author Evgeny Borisov
+ */
+public class AutoProfileDetectorEnvironmentPostProcessor implements EnvironmentPostProcessor {
+    @Override
+    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+        if (environment.getActiveProfiles().length == 0) {
+            if (getTempreture() < -50) {
+                environment.addActiveProfile("WINTER_IS_HERE");
+            }else {
+                environment.setActiveProfiles("WINTER_IS_COMING");
+            }
+        }
+    }
+
+    private int getTempreture() {
+        return -20;
+    }
+}
